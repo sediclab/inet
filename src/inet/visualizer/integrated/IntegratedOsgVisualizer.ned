@@ -18,15 +18,20 @@
 
 package inet.visualizer.integrated;
 
+import inet.visualizer.contract.ITransportConnectionVisualizer;
 import inet.visualizer.contract.IDataLinkVisualizer;
+import inet.visualizer.contract.IInfoVisualizer;
 import inet.visualizer.contract.IIntegratedVisualizer;
+import inet.visualizer.contract.ILinkBreakVisualizer;
 import inet.visualizer.contract.IMediumVisualizer;
 import inet.visualizer.contract.IMobilityVisualizer;
 import inet.visualizer.contract.INetworkConnectionVisualizer;
 import inet.visualizer.contract.INetworkNodeVisualizer;
 import inet.visualizer.contract.INetworkRouteVisualizer;
+import inet.visualizer.contract.IPacketDropVisualizer;
 import inet.visualizer.contract.IPhysicalEnvironmentVisualizer;
 import inet.visualizer.contract.IPhysicalLinkVisualizer;
+import inet.visualizer.contract.IRoutingTableVisualizer;
 import inet.visualizer.contract.ISceneVisualizer;
 import inet.visualizer.contract.IStatisticVisualizer;
 import inet.visualizer.contract.ITracingObstacleLossVisualizer;
@@ -52,8 +57,13 @@ module IntegratedOsgVisualizer like IIntegratedVisualizer
         string obstacleLossVisualizerType = default("TracingObstacleLossOsgVisualizer");
         string physicalLinkVisualizerType = default("PhysicalLinkOsgVisualizer");
         string dataLinkVisualizerType = default("DataLinkOsgVisualizer");
+        string linkBreakVisualizerType = default("LinkBreakOsgVisualizer");
         string networkRouteVisualizerType = default("NetworkRouteOsgVisualizer");
+        string routingTableVisualizerType = default("RoutingTableOsgVisualizer");
         string transportRouteVisualizerType = default("TransportRouteOsgVisualizer");
+        string transportConnectionVisualizerType = default("TransportConnectionOsgVisualizer");
+        string packetDropVisualizerType = default("PacketDropOsgVisualizer");
+        string infoVisualizerType = default("InfoOsgVisualizer");
         string statisticVisualizerType = default("StatisticOsgVisualizer");
     submodules:
         sceneVisualizer: <sceneVisualizerType> like ISceneVisualizer if sceneVisualizerType != "" {
@@ -76,6 +86,14 @@ module IntegratedOsgVisualizer like IIntegratedVisualizer
             parameters:
                 @display("p=150,450");
         }
+        infoVisualizer: <infoVisualizerType> like IInfoVisualizer if infoVisualizerType != "" {
+            parameters:
+                @display("p=150,650");
+        }
+        packetDropVisualizer: <packetDropVisualizerType> like IPacketDropVisualizer if packetDropVisualizerType != "" {
+            parameters:
+                @display("p=150,750");
+        }
         statisticVisualizer: <statisticVisualizerType> like IStatisticVisualizer if statisticVisualizerType != "" {
             parameters:
                 @display("p=150,550");
@@ -96,12 +114,24 @@ module IntegratedOsgVisualizer like IIntegratedVisualizer
             parameters:
                 @display("p=450,350");
         }
-        networkRouteVisualizer: <networkRouteVisualizerType> like INetworkRouteVisualizer if networkRouteVisualizerType != "" {
+        linkBreakVisualizer: <linkBreakVisualizerType> like ILinkBreakVisualizer if linkBreakVisualizerType != "" {
             parameters:
                 @display("p=450,450");
         }
-        transportRouteVisualizer: <transportRouteVisualizerType> like ITransportRouteVisualizer if transportRouteVisualizerType != "" {
+        networkRouteVisualizer: <networkRouteVisualizerType> like INetworkRouteVisualizer if networkRouteVisualizerType != "" {
             parameters:
                 @display("p=450,550");
+        }
+        routingTableVisualizer: <routingTableVisualizerType> like IRoutingTableVisualizer if routingTableVisualizerType != "" {
+            parameters:
+                @display("p=450,650");
+        }
+        transportRouteVisualizer: <transportRouteVisualizerType> like ITransportRouteVisualizer if transportRouteVisualizerType != "" {
+            parameters:
+                @display("p=450,750");
+        }
+        transportConnectionVisualizer: <transportConnectionVisualizerType> like ITransportConnectionVisualizer if transportConnectionVisualizerType != "" {
+            parameters:
+                @display("p=450,850");
         }
 }
