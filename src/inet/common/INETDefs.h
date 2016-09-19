@@ -42,11 +42,7 @@ using namespace omnetpp;
 // OMNETPP_BUILDNUM was introduced around OMNeT++ 5.0beta2, with the initial value of 1001.
 // The following lines fake a build number for earlier versions.
 #ifndef OMNETPP_BUILDNUM
-#  if OMNETPP_VERSION < 0x0500
-#    define OMNETPP_BUILDNUM 0
-#  else
-#    define OMNETPP_BUILDNUM 1000
-#  endif
+#  define OMNETPP_BUILDNUM 1000
 #endif
 
 #define INET_VERSION  0x0304
