@@ -28,7 +28,7 @@ import inet.visualizer.contract.IPhysicalLinkVisualizer;
 // The line automatically follows the movement of mobile nodes.
 //
 // @see ~PhysicalLinkCanvasVisualizer, ~PhysicalLinkVisualizer,
-// ~PhysicalLinkVisualizerBase, and ~IPhysicalLinkVisualizer
+// ~LinkVisualizerBase, and ~IPhysicalLinkVisualizer
 //
 simple PhysicalLinkOsgVisualizer extends LinkVisualizerBase like IPhysicalLinkVisualizer
 {

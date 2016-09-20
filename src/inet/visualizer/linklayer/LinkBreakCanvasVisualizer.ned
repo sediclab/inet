@@ -20,6 +20,15 @@ package inet.visualizer.linklayer;
 import inet.visualizer.base.LinkBreakVisualizerBase;
 import inet.visualizer.contract.ILinkBreakVisualizer;
 
+//
+// This module visualizes link breaks on a 2D canvas. It displays an icon
+// for each link break in the network. See the documentation of the base
+// module for what constitutes a link break. The icon is positioned at the
+// middle point of the link.
+//
+// @see ~LinkBreakOsgVisualizer, ~LinkBreakVisualizer,
+// ~LinkBreakVisualizerBase, and ~ILinkBreakVisualizer
+//
 simple LinkBreakCanvasVisualizer extends LinkBreakVisualizerBase like ILinkBreakVisualizer
 {
     parameters:

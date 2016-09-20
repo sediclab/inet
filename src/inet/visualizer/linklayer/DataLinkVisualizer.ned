@@ -23,7 +23,7 @@ import inet.visualizer.contract.IDataLinkVisualizer;
 // This module integrates canvas and osg data link visualizers into a single module.
 //
 // @see ~DataLinkCanvasVisualizer, ~DataLinkOsgVisualizer,
-// ~DataLinkVisualizerBase, and ~IDataLinkVisualizer
+// ~LinkVisualizerBase, and ~IDataLinkVisualizer
 //
 module DataLinkVisualizer like IDataLinkVisualizer
 {

@@ -23,7 +23,7 @@ import inet.visualizer.contract.IPhysicalLinkVisualizer;
 // This module integrates canvas and osg data link visualizers into a single module.
 //
 // @see ~PhysicalLinkCanvasVisualizer, ~PhysicalLinkOsgVisualizer,
-// ~PhysicalLinkVisualizerBase, and ~IPhysicalLinkVisualizer
+// ~LinkVisualizerBase, and ~IPhysicalLinkVisualizer
 //
 module PhysicalLinkVisualizer like IPhysicalLinkVisualizer
 {

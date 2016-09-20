@@ -28,7 +28,7 @@ import inet.visualizer.contract.IDataLinkVisualizer;
 // The line automatically follows the movement of mobile nodes.
 //
 // @see ~DataLinkCanvasVisualizer, ~DataLinkVisualizer,
-// ~DataLinkVisualizerBase, and ~IDataLinkVisualizer
+// ~LinkVisualizerBase, and ~IDataLinkVisualizer
 //
 simple DataLinkOsgVisualizer extends LinkVisualizerBase like IDataLinkVisualizer
 {

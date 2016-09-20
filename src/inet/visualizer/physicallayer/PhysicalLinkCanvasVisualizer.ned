@@ -29,8 +29,8 @@ import inet.visualizer.contract.IPhysicalLinkVisualizer;
 // the link becomes inactive unless it is reinforced by another packet. The
 // arrow automatically follows the movement of mobile nodes.
 //
-// @see ~LinkOsgVisualizer, ~LinkVisualizer,
-// ~LinkVisualizerBase, and ~ILinkVisualizer
+// @see ~PhysicalLinkOsgVisualizer, ~PhysicalLinkVisualizer,
+// ~LinkVisualizerBase, and ~IPhysicalLinkVisualizer
 //
 simple PhysicalLinkCanvasVisualizer extends LinkVisualizerBase like IPhysicalLinkVisualizer
 {
