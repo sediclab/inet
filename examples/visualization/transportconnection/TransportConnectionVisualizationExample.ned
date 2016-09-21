@@ -2,11 +2,11 @@
 // This program is property of its copyright holder. All rights reserved.
 //
 
-package inet.examples.visualization.connection;
+package inet.examples.visualization.transportconnection;
 
 import inet.visualizer.integrated.IntegratedVisualizer;
 
-network ConnectionVisualizationExample
+network TransportConnectionVisualizationExample
 {
     parameters:
         @figure[description](type=text; pos=300,10; font=Arial,20; text="TODO");
