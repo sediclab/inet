@@ -50,6 +50,7 @@ simple RouteVisualizerBase extends VisualizerBase
         string packetNameFilter = default(""); // which packets are considered to determine active routes, matches no packets by default
         string lineColor = default(""); // route line color, automatic by default
         double lineWidth = default(3); // route line width
-        double opacityHalfLife @unit(s) = default(1s); // how quickly inactive routes fade away, opacity halves every second by default
+        string fadeOutMode @enum("realTime", "animationTime", "simulationTime") = default("realTime");
+        double fadeOutHalfLife @unit(s) = default(1s); // how quickly inactive routes fade away, opacity halves every second by default
         @class(RouteVisualizerBase);
 }

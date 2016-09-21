@@ -47,7 +47,8 @@ class INET_API PathVisualizerBase : public VisualizerBase, public cListener
     inet::PatternMatcher packetNameMatcher;
     cFigure::Color lineColor;
     double lineWidth = NaN;
-    double opacityHalfLife = NaN;
+    const char *fadeOutMode = nullptr;
+    double fadeOutHalfLife = NaN;
     //@}
 
     /**

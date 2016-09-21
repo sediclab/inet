@@ -48,7 +48,8 @@ class INET_API LinkVisualizerBase : public VisualizerBase, public cListener
     cFigure::Color lineColor;
     double lineWidth = NaN;
     cFigure::LineStyle lineStyle;
-    double opacityHalfLife = NaN;
+    const char *fadeOutMode = nullptr;
+    double fadeOutHalfLife = NaN;
     //@}
 
     /**

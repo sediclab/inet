@@ -43,7 +43,8 @@ void LinkVisualizerBase::initialize(int stage)
         lineColor = cFigure::Color(par("lineColor"));
         lineWidth = par("lineWidth");
         lineStyle = cFigure::parseLineStyle(par("lineStyle"));
-        opacityHalfLife = par("opacityHalfLife");
+        fadeOutMode = par("fadeOutMode");
+        fadeOutHalfLife = par("fadeOutHalfLife");
     }
 }
 
@@ -53,7 +54,7 @@ void LinkVisualizerBase::refreshDisplay() const
     std::vector<const Link *> removedLinks;
     for (auto it : links) {
         auto link = it.second;
-        auto alpha = std::min(1.0, std::pow(2.0, -(now - link->lastUsage).dbl() / opacityHalfLife));
+        auto alpha = std::min(1.0, std::pow(2.0, -(now - link->lastUsage).dbl() / fadeOutHalfLife));
         if (alpha < 0.01)
             removedLinks.push_back(link);
         else
