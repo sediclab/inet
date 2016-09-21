@@ -53,7 +53,7 @@ class INET_API TransportConnectionOsgVisualizer : public TransportConnectionVisu
   protected:
     virtual const Connection *createConnection(cModule *source, cModule *destination, tcp::TCPConnection *tcpConnection) const override { return nullptr; }
 
-#endif
+#endif // ifdef WITH_OSG
 };
 
 } // namespace visualizer
