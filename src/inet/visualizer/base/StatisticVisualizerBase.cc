@@ -37,7 +37,8 @@ void StatisticVisualizerBase::initialize(int stage)
         statisticName = par("statisticName");
         unit = par("unit");
         prefix = par("prefix");
-        color = cFigure::Color(par("color"));
+        fontColor = cFigure::Color(par("fontColor"));
+        backgroundColor = cFigure::Color(par("backgroundColor"));
         const char *sourcePathFilter = par("sourcePathFilter");
         sourcePathMatcher.setPattern(sourcePathFilter, true, true, true);
         subscriptionModule = *par("subscriptionModule").stringValue() == '\0' ? getSystemModule() : getModuleFromPar<cModule>(par("subscriptionModule"), this);

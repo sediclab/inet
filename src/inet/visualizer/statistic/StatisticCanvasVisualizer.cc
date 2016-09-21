@@ -48,13 +48,14 @@ StatisticVisualizerBase::CacheEntry *StatisticCanvasVisualizer::createCacheEntry
     double height = 24;
     double spacing = 4;
     auto labelFigure = new cLabelFigure("text");
+    labelFigure->setColor(fontColor);
     labelFigure->setPosition(cFigure::Point(spacing, spacing));
     auto rectangleFigure = new cRectangleFigure("border");
     rectangleFigure->setCornerRx(spacing);
     rectangleFigure->setCornerRy(spacing);
     rectangleFigure->setFilled(true);
     rectangleFigure->setFillOpacity(0.5);
-    rectangleFigure->setFillColor(color);
+    rectangleFigure->setFillColor(backgroundColor);
     rectangleFigure->setLineColor(cFigure::BLACK);
     rectangleFigure->setBounds(cFigure::Rectangle(0, 0, width, height));
     auto groupFigure = new cGroupFigure("statistic");

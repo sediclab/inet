@@ -39,8 +39,8 @@ StatisticVisualizerBase::CacheEntry *StatisticOsgVisualizer::createCacheEntry(cC
 {
     auto label = new osgText::Text();
     label->setCharacterSize(18);
-    label->setBoundingBoxColor(osg::Vec4(color.red / 255.0, color.green / 255.0, color.blue / 255.0, 0.5));
-    label->setColor(osg::Vec4(0.0, 0.0, 0.0, 1.0));
+    label->setBoundingBoxColor(osg::Vec4(backgroundColor.red / 255.0, backgroundColor.green / 255.0, backgroundColor.blue / 255.0, 0.5));
+    label->setColor(osg::Vec4(fontColor.red / 255.0, fontColor.green / 255.0, fontColor.blue / 255.0, 0.5));
     label->setAlignment(osgText::Text::CENTER_BOTTOM);
     label->setText("");
     label->setDrawMode(osgText::Text::FILLEDBOUNDINGBOX | osgText::Text::TEXT);

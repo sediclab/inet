@@ -59,7 +59,8 @@ class INET_API StatisticVisualizerBase : public VisualizerBase, public cListener
     const char *statisticName = nullptr;
     const char *unit = nullptr;
     const char *prefix = nullptr;
-    cFigure::Color color;
+    cFigure::Color fontColor;
+    cFigure::Color backgroundColor;
     double minValue = NaN;
     double maxValue = NaN;
     //@}
