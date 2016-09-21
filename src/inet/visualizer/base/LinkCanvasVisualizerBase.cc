@@ -39,9 +39,11 @@ void LinkCanvasVisualizerBase::initialize(int stage)
     LinkVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
+        zIndex = par("zIndex");
         auto canvas = visualizerTargetModule->getCanvas();
         canvasProjection = CanvasProjection::getCanvasProjection(canvas);
         linkGroup = new cGroupFigure();
+        linkGroup->setZIndex(zIndex);
         canvas->addFigure(linkGroup);
     }
 }

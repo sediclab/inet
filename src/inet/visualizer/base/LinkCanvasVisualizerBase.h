@@ -38,6 +38,7 @@ class INET_API LinkCanvasVisualizerBase : public LinkVisualizerBase
     };
 
   protected:
+    double zIndex = NaN;
     const CanvasProjection *canvasProjection = nullptr;
     cGroupFigure *linkGroup = nullptr;
 

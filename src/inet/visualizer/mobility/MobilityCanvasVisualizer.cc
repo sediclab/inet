@@ -42,6 +42,7 @@ void MobilityCanvasVisualizer::initialize(int stage)
     MobilityVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_PHYSICAL_ENVIRONMENT) {
+        zIndex = par("zIndex");
         canvasProjection = CanvasProjection::getCanvasProjection(visualizerTargetModule->getCanvas());
         networkNodeVisualizer = getModuleFromPar<NetworkNodeCanvasVisualizer>(par("networkNodeVisualizerModule"), this);
     }
@@ -82,8 +83,10 @@ MobilityCanvasVisualizer::CacheEntry* MobilityCanvasVisualizer::ensureCacheEntry
         auto visualRepresentation = findVisualRepresentation(module);
         auto trailFigure = displayMovementTrail ? new TrailFigure(trailLength, true, "movement trail") : nullptr;
         auto visualization = networkNodeVisualizer->getNeworkNodeVisualization(getContainingNode(module));
-        if (trailFigure != nullptr)
+        if (trailFigure != nullptr) {
+            trailFigure->setZIndex(zIndex);
             canvas->addFigure(trailFigure);
+        }
         cacheEntry = new CacheEntry(visualization, visualRepresentation, trailFigure);
         setCacheEntry(mobility, cacheEntry);
     }

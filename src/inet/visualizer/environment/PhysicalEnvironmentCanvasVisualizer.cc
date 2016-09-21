@@ -34,10 +34,12 @@ void PhysicalEnvironmentCanvasVisualizer::initialize(int stage)
     PhysicalEnvironmentVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
-        objectsLayer = new cGroupFigure("objectsLayer");
+        zIndex = par("zIndex");
         cCanvas *canvas = visualizerTargetModule->getCanvas();
-        canvas->addFigureBelow(objectsLayer, canvas->getSubmodulesLayer());
         canvasProjection = CanvasProjection::getCanvasProjection(visualizerTargetModule->getCanvas());
+        objectsLayer = new cGroupFigure("objectsLayer");
+        objectsLayer->setZIndex(zIndex);
+        canvas->addFigureBelow(objectsLayer, canvas->getSubmodulesLayer());
     }
 }
 

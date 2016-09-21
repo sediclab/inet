@@ -35,6 +35,7 @@ import inet.visualizer.contract.IDataLinkVisualizer;
 simple DataLinkCanvasVisualizer extends LinkVisualizerBase like IDataLinkVisualizer
 {
     parameters:
+        double zIndex = default(0); // determines the drawing order of figures relative to other visualizers
         lineColor = default("darkcyan");
         @class(DataLinkCanvasVisualizer);
 }

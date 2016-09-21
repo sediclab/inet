@@ -31,6 +31,7 @@ using namespace inet::physicallayer;
 class INET_API TracingObstacleLossCanvasVisualizer : public TracingObstacleLossVisualizerBase
 {
   protected:
+    double zIndex = NaN;
     /** @name Graphics */
     //@{
     /**

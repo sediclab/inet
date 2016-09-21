@@ -39,6 +39,10 @@ class INET_API StatisticCanvasVisualizer : public StatisticVisualizerBase
     };
 
   protected:
+    double zIndex = NaN;
+
+  protected:
+    virtual void initialize(int stage) override;
     virtual CacheEntry *createCacheEntry(cComponent *source, simsignal_t signal) override;
     virtual void addCacheEntry(std::pair<int, int> moduleAndSignal, CacheEntry *cacheEntry) override;
     virtual void removeCacheEntry(std::pair<int, int> moduleAndSignal, CacheEntry *cacheEntry) override;

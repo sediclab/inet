@@ -33,6 +33,7 @@ import inet.visualizer.contract.IStatisticVisualizer;
 simple StatisticCanvasVisualizer extends StatisticVisualizerBase like IStatisticVisualizer
 {
     parameters:
-        @class(StatisticCanvasVisualizer);
         string networkNodeVisualizerModule = default("^.networkNodeVisualizer");
+        double zIndex = default(0); // determines the drawing order of figures relative to other visualizers
+        @class(StatisticCanvasVisualizer);
 }

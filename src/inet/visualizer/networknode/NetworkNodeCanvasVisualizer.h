@@ -29,6 +29,7 @@ namespace visualizer {
 class INET_API NetworkNodeCanvasVisualizer : public NetworkNodeVisualizerBase
 {
   protected:
+    double zIndex = NaN;
     std::map<const cModule *, NetworkNodeCanvasVisualization *> networkNodeVisualizations;
 
   protected:

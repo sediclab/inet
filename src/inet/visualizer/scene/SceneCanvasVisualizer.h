@@ -28,6 +28,7 @@ namespace visualizer {
 class INET_API SceneCanvasVisualizer : public SceneVisualizerBase
 {
   protected:
+    double zIndex = NaN;
     CanvasProjection canvasProjection;
     cGroupFigure *axisLayer = nullptr;
 

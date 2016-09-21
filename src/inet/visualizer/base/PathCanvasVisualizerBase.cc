@@ -38,22 +38,28 @@ void PathCanvasVisualizerBase::initialize(int stage)
 {
     PathVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
-    if (stage == INITSTAGE_LOCAL)
-        canvasProjection = CanvasProjection::getCanvasProjection(visualizerTargetModule->getCanvas());
+    if (stage == INITSTAGE_LOCAL) {
+        zIndex = par("zIndex");
+        auto canvas = visualizerTargetModule->getCanvas();
+        canvasProjection = CanvasProjection::getCanvasProjection(canvas);
+        pathGroup = new cGroupFigure();
+        pathGroup->setZIndex(zIndex);
+        canvas->addFigure(pathGroup);
+    }
 }
 
 void PathCanvasVisualizerBase::addPath(std::pair<int, int> sourceAndDestination, const Path *path)
 {
     PathVisualizerBase::addPath(sourceAndDestination, path);
     auto canvasPath = static_cast<const CanvasPath *>(path);
-    visualizerTargetModule->getCanvas()->addFigure(canvasPath->figure);
+    pathGroup->addFigure(canvasPath->figure);
 }
 
 void PathCanvasVisualizerBase::removePath(std::pair<int, int> sourceAndDestination, const Path *path)
 {
     PathVisualizerBase::removePath(sourceAndDestination, path);
     auto canvasPath = static_cast<const CanvasPath *>(path);
-    visualizerTargetModule->getCanvas()->removeFigure(canvasPath->figure);
+    pathGroup->removeFigure(canvasPath->figure);
 }
 
 const PathVisualizerBase::Path *PathCanvasVisualizerBase::createPath(const std::vector<int>& path) const

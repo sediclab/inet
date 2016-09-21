@@ -34,6 +34,7 @@ void MediumCanvasVisualizer::initialize(int stage)
     MediumVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
+        zIndex = par("zIndex");
         const char *signalShapeString = par("signalShape");
         if (!strcmp(signalShapeString, "ring"))
             signalShape = SIGNAL_SHAPE_RING;
@@ -44,15 +45,18 @@ void MediumCanvasVisualizer::initialize(int stage)
         cCanvas *canvas = visualizerTargetModule->getCanvas();
         if (displaySignals) {
             communicationLayer = new cGroupFigure("communication");
+            communicationLayer->setZIndex(zIndex);
             canvas->addFigureBelow(communicationLayer, canvas->getSubmodulesLayer());
         }
         if (displayRadioFrames) {
             radioFrameLayer = new cGroupFigure("radioFrameLayer");
+            radioFrameLayer->setZIndex(zIndex);
             canvas->addFigureAbove(radioFrameLayer, canvas->getSubmodulesLayer());
         }
         displayCommunicationHeat = par("displayCommunicationHeat");
         if (displayCommunicationHeat) {
             communicationHeat = new HeatMapFigure(communicationHeatMapSize, "communication heat");
+            communicationHeat->setZIndex(zIndex);
             communicationHeat->setTags("successful_reception heat");
             canvas->addFigure(communicationHeat, 0);
         }

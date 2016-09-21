@@ -42,6 +42,7 @@ class INET_API MobilityCanvasVisualizer : public MobilityVisualizerBase
     };
 
   protected:
+    double zIndex = NaN;
     const CanvasProjection *canvasProjection = nullptr;
     NetworkNodeCanvasVisualizer *networkNodeVisualizer = nullptr;
     std::map<const IMobility *, CacheEntry *> cacheEntries;

@@ -28,6 +28,7 @@ namespace visualizer {
 class INET_API NetworkConnectionCanvasVisualizer : public NetworkConnectionVisualizerBase
 {
   protected:
+    double zIndex = NaN;
     const CanvasProjection *canvasProjection = nullptr;
 
   protected:

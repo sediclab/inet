@@ -45,6 +45,7 @@ class INET_API PhysicalEnvironmentCanvasVisualizer : public PhysicalEnvironmentV
     };
 
   protected:
+    double zIndex = NaN;
     /** @name Internal state */
     //@{
     const CanvasProjection *canvasProjection;

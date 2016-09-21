@@ -38,7 +38,9 @@ class INET_API PathCanvasVisualizerBase : public PathVisualizerBase
     };
 
   protected:
+    double zIndex = NaN;
     const CanvasProjection *canvasProjection = nullptr;
+    cGroupFigure *pathGroup = nullptr;
 
   protected:
     virtual void initialize(int stage) override;

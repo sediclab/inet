@@ -36,6 +36,7 @@ class INET_API MediumCanvasVisualizer : public MediumVisualizerBase
   protected:
     /** @name Parameters */
     //@{
+    double zIndex = NaN;
     const CanvasProjection *canvasProjection = nullptr;
     SignalShape signalShape = SIGNAL_SHAPE_RING;
     cImageFigure *transmissionImage = nullptr;

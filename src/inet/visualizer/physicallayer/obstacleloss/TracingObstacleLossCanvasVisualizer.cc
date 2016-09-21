@@ -29,8 +29,10 @@ void TracingObstacleLossCanvasVisualizer::initialize(int stage)
     TracingObstacleLossVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
-        intersectionTrail = new TrailFigure(100, true, "obstacle intersection trail");
+        zIndex = par("zIndex");
         cCanvas *canvas = visualizerTargetModule->getCanvas();
+        intersectionTrail = new TrailFigure(100, true, "obstacle intersection trail");
+        intersectionTrail->setZIndex(zIndex);
         canvas->addFigureBelow(intersectionTrail, canvas->getSubmodulesLayer());
     }
     else if (stage == INITSTAGE_PHYSICAL_ENVIRONMENT)

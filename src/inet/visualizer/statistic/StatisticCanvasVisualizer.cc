@@ -33,6 +33,15 @@ StatisticCanvasVisualizer::CanvasCacheEntry::CanvasCacheEntry(const char *unit, 
 {
 }
 
+void StatisticCanvasVisualizer::initialize(int stage)
+{
+    StatisticVisualizerBase::initialize(stage);
+    if (!hasGUI()) return;
+    if (stage == INITSTAGE_LOCAL) {
+        zIndex = par("zIndex");
+    }
+}
+
 StatisticVisualizerBase::CacheEntry *StatisticCanvasVisualizer::createCacheEntry(cComponent *source, simsignal_t signal)
 {
     double width = 100;
@@ -51,6 +60,7 @@ StatisticVisualizerBase::CacheEntry *StatisticCanvasVisualizer::createCacheEntry
     auto groupFigure = new cGroupFigure("statistic");
     groupFigure->addFigure(rectangleFigure);
     groupFigure->addFigure(labelFigure);
+    groupFigure->setZIndex(zIndex);
     auto networkNodeVisualizer = getModuleFromPar<NetworkNodeCanvasVisualizer>(par("networkNodeVisualizerModule"), this);
     auto networkNode = getContainingNode(check_and_cast<cModule *>(source));
     auto visualization = networkNodeVisualizer->getNeworkNodeVisualization(networkNode);
