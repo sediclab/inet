@@ -29,10 +29,14 @@ void NetworkNodeCanvasVisualizer::initialize(int stage)
     NetworkNodeVisualizerBase::initialize(stage);
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
+        auto canvas = visualizerTargetModule->getCanvas();
+        auto canvasProjection = CanvasProjection::getCanvasProjection(canvas);
         for (cModule::SubmoduleIterator it(getSystemModule()); !it.end(); it++) {
             auto networkNode = *it;
             if (isNetworkNode(networkNode) && networkNodePathMatcher.matches(networkNode->getFullPath().c_str())) {
                 auto visualization = createNetworkNodeVisualization(networkNode);
+                auto position = canvasProjection->computeCanvasPoint(getPosition(networkNode));
+                visualization->setTransform(cFigure::Transform().translate(position.x, position.y));
                 setNetworkNodeVisualization(networkNode, visualization);
                 visualizerTargetModule->getCanvas()->addFigure(visualization);
             }
