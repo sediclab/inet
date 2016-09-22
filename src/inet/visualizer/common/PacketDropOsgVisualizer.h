@@ -35,7 +35,7 @@ class INET_API PacketDropOsgVisualizer : public PacketDropVisualizerBase
         osg::Node *node = nullptr;
 
       public:
-        OsgPacketDrop(osg::Node *node, int moduleId, cPacket *packet, simtime_t dropTime);
+        OsgPacketDrop(osg::Node *node, int moduleId, cPacket *packet, simtime_t dropSimulationTime, double dropAnimationTime, int dropRealTime);
         virtual ~OsgPacketDrop();
     };
 

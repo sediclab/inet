@@ -24,8 +24,8 @@ namespace visualizer {
 
 Define_Module(PacketDropCanvasVisualizer);
 
-PacketDropCanvasVisualizer::CanvasPacketDrop::CanvasPacketDrop(cIconFigure *figure, int moduleId, cPacket *packet, simtime_t dropTime) :
-    PacketDrop(moduleId, packet, dropTime),
+PacketDropCanvasVisualizer::CanvasPacketDrop::CanvasPacketDrop(cIconFigure *figure, int moduleId, cPacket *packet, simtime_t dropSimulationTime, double dropAnimationTime, int dropRealTime) :
+    PacketDrop(moduleId, packet, dropSimulationTime, dropAnimationTime, dropRealTime),
     figure(figure)
 {
 }
@@ -62,7 +62,7 @@ const PacketDropVisualizerBase::PacketDrop *PacketDropCanvasVisualizer::createPa
     figure->setTintAmount(iconTintAmount);
     figure->setTintColor(iconTintColor);
     figure->setPosition(canvasProjection->computeCanvasPoint(getPosition(getContainingNode(module))));
-    return new CanvasPacketDrop(figure, module->getId(), packet, simTime());
+    return new CanvasPacketDrop(figure, module->getId(), packet, getSimulation()->getSimTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void PacketDropCanvasVisualizer::addPacketDrop(const PacketDrop *packetDrop)

@@ -31,10 +31,12 @@ class INET_API LinkBreakVisualizerBase : public VisualizerBase, public cListener
   protected:
     class INET_API LinkBreak {
       public:
-        simtime_t breakTime;
+        simtime_t breakSimulationTime;
+        double breakAnimationTime;
+        double breakRealTime;
 
       public:
-        LinkBreak(simtime_t breakTime);
+        LinkBreak(simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
         virtual ~LinkBreak() {}
     };
 

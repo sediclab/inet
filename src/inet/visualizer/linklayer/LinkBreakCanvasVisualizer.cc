@@ -24,8 +24,8 @@ namespace visualizer {
 
 Define_Module(LinkBreakCanvasVisualizer);
 
-LinkBreakCanvasVisualizer::CanvasLinkBreak::CanvasLinkBreak(cIconFigure *figure, simtime_t breakTime) :
-    LinkBreak(breakTime),
+LinkBreakCanvasVisualizer::CanvasLinkBreak::CanvasLinkBreak(cIconFigure *figure, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    LinkBreak(breakSimulationTime, breakAnimationTime, breakRealTime),
     figure(figure)
 {
 }
@@ -60,7 +60,7 @@ const LinkBreakVisualizerBase::LinkBreak *LinkBreakCanvasVisualizer::createLinkB
     figure->setTintAmount(iconTintAmount);
     figure->setTintColor(iconTintColor);
     figure->setPosition((transmitterPosition + receiverPosition) / 2);
-    return new CanvasLinkBreak(figure, simTime());
+    return new CanvasLinkBreak(figure, simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void LinkBreakCanvasVisualizer::addLinkBreak(const LinkBreak *linkBreak)

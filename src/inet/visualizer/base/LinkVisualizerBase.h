@@ -31,7 +31,9 @@ class INET_API LinkVisualizerBase : public VisualizerBase, public cListener
   protected:
     class INET_API Link {
       public:
-        mutable simtime_t lastUsage = simTime();
+        mutable simtime_t lastUsageSimulationTime = simTime();
+        mutable double lastUsageAnimationTime;
+        mutable double lastUsageRealTime;
         const int sourceModuleId;
         const int destinationModuleId;
 

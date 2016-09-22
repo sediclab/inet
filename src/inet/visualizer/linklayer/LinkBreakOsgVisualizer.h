@@ -34,7 +34,7 @@ class INET_API LinkBreakOsgVisualizer : public LinkBreakVisualizerBase
         osg::Node *node = nullptr;
 
       public:
-        OsgLinkBreak(osg::Node *node, simtime_t breakTime);
+        OsgLinkBreak(osg::Node *node, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
         virtual ~OsgLinkBreak();
     };
 

@@ -32,7 +32,9 @@ class INET_API PathVisualizerBase : public VisualizerBase, public cListener
     class INET_API Path {
       public:
         mutable double offset = NaN;
-        mutable simtime_t lastUsage = simTime();
+        mutable simtime_t lastUsageSimulationTime = simTime();
+        mutable double lastUsageAnimationTime;
+        mutable double lastUsageRealTime;
         const std::vector<int> moduleIds;
 
       public:

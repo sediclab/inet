@@ -50,11 +50,22 @@ void LinkVisualizerBase::initialize(int stage)
 
 void LinkVisualizerBase::refreshDisplay() const
 {
-    auto now = simTime();
+    auto currentSimulationTime = simTime();
+    double currentRealTime = getRealTime();
+    double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
     std::vector<const Link *> removedLinks;
     for (auto it : links) {
         auto link = it.second;
-        auto alpha = std::min(1.0, std::pow(2.0, -(now - link->lastUsage).dbl() / fadeOutHalfLife));
+        double delta;
+        if (!strcmp(fadeOutMode, "simulationTime"))
+            delta = (currentSimulationTime - link->lastUsageSimulationTime).dbl();
+        else if (!strcmp(fadeOutMode, "animationTime"))
+            delta = currentAnimationTime - link->lastUsageAnimationTime;
+        else if (!strcmp(fadeOutMode, "realTime"))
+            delta = currentRealTime - link->lastUsageRealTime;
+        else
+            throw cRuntimeError("Unknown fadeOutMode: %s", fadeOutMode);
+        auto alpha = std::min(1.0, std::pow(2.0, -delta / fadeOutHalfLife));
         if (alpha < 0.01)
             removedLinks.push_back(link);
         else
@@ -109,8 +120,11 @@ void LinkVisualizerBase::updateLink(cModule *source, cModule *destination)
         link = createLink(source, destination);
         addLink(key, link);
     }
-    else
-        link->lastUsage = simTime();
+    else {
+        link->lastUsageSimulationTime = getSimulation()->getSimTime();
+        link->lastUsageAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+        link->lastUsageRealTime = getRealTime();
+    }
 }
 
 void LinkVisualizerBase::receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG)

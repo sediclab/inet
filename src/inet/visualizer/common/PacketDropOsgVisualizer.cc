@@ -25,8 +25,8 @@ namespace visualizer {
 
 Define_Module(PacketDropOsgVisualizer);
 
-PacketDropOsgVisualizer::OsgPacketDrop::OsgPacketDrop(osg::Node *node, int moduleId, cPacket *packet, simtime_t dropTime) :
-    PacketDrop(moduleId, packet, dropTime),
+PacketDropOsgVisualizer::OsgPacketDrop::OsgPacketDrop(osg::Node *node, int moduleId, cPacket *packet, simtime_t dropSimulationTime, double dropAnimationTime, int dropRealTime) :
+    PacketDrop(moduleId, packet, dropSimulationTime, dropAnimationTime, dropRealTime),
     node(node)
 {
 }
@@ -51,7 +51,7 @@ const PacketDropVisualizerBase::PacketDrop *PacketDropOsgVisualizer::createPacke
     stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
-    return new OsgPacketDrop(geode, module->getId(), packet, simTime());
+    return new OsgPacketDrop(geode, module->getId(), packet, getSimulation()->getSimTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void PacketDropOsgVisualizer::setAlpha(const PacketDrop *packetDrop, double alpha) const

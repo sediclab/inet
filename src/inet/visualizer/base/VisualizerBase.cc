@@ -35,6 +35,11 @@ void VisualizerBase::initialize(int stage)
     }
 }
 
+double VisualizerBase::getRealTime() const
+{
+    return (double)clock() / (double)CLOCKS_PER_SEC;
+}
+
 Coord VisualizerBase::getPosition(cModule *node) const
 {
     auto mobility = node->getSubmodule("mobility");

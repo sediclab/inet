@@ -30,8 +30,8 @@ namespace visualizer {
 
 Define_Module(LinkBreakOsgVisualizer);
 
-LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, simtime_t breakTime) :
-    LinkBreak(breakTime),
+LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    LinkBreak(breakSimulationTime, breakAnimationTime, breakRealTime),
     node(node)
 {
 }
@@ -65,7 +65,7 @@ const LinkBreakVisualizerBase::LinkBreak *LinkBreakOsgVisualizer::createLinkBrea
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
     // TODO: apply tinting
-    return new OsgLinkBreak(geode, simTime());
+    return new OsgLinkBreak(geode, simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void LinkBreakOsgVisualizer::addLinkBreak(const LinkBreak *linkBreak)

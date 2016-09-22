@@ -26,8 +26,10 @@ namespace inet {
 
 namespace visualizer {
 
-LinkBreakVisualizerBase::LinkBreak::LinkBreak(simtime_t breakTime) :
-    breakTime(breakTime)
+LinkBreakVisualizerBase::LinkBreak::LinkBreak(simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    breakSimulationTime(breakSimulationTime),
+    breakAnimationTime(breakAnimationTime),
+    breakRealTime(breakRealTime)
 {
 }
 
@@ -50,10 +52,21 @@ void LinkBreakVisualizerBase::initialize(int stage)
 
 void LinkBreakVisualizerBase::refreshDisplay() const
 {
-    auto now = simTime();
+    auto currentSimulationTime = simTime();
+    double currentRealTime = getRealTime();
+    double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
     std::vector<const LinkBreak *> removedLinkBreaks;
     for (auto linkBreak : linkBreaks) {
-        auto alpha = std::min(1.0, std::pow(2.0, -(now - linkBreak->breakTime).dbl() / fadeOutHalfLife));
+        double delta;
+        if (!strcmp(fadeOutMode, "simulationTime"))
+            delta = (currentSimulationTime - linkBreak->breakSimulationTime).dbl();
+        else if (!strcmp(fadeOutMode, "animationTime"))
+            delta = currentAnimationTime - linkBreak->breakAnimationTime;
+        else if (!strcmp(fadeOutMode, "realTime"))
+            delta = currentRealTime - linkBreak->breakRealTime;
+        else
+            throw cRuntimeError("Unknown fadeOutMode: %s", fadeOutMode);
+        auto alpha = std::min(1.0, std::pow(2.0, -delta / fadeOutHalfLife));
         if (alpha < 0.01)
             removedLinkBreaks.push_back(linkBreak);
         else

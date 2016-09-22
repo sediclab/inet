@@ -32,11 +32,13 @@ class INET_API PacketDropVisualizerBase : public VisualizerBase, public cListene
       public:
         int moduleId;
         cPacket *packet;
-        simtime_t dropTime;
+        simtime_t dropSimulationTime;
+        double dropAnimationTime;
+        double dropRealTime;
 
       public:
-        PacketDrop(int moduleId, cPacket *packet, simtime_t dropTime);
-        virtual ~PacketDrop() { delete packet; }
+        PacketDrop(int moduleId, cPacket *packet, simtime_t dropSimulationTime, double dropAnimationTime, int dropRealTime);
+        virtual ~PacketDrop();
     };
 
   protected:

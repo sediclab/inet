@@ -33,7 +33,7 @@ class INET_API PacketDropCanvasVisualizer : public PacketDropVisualizerBase
         cIconFigure *figure;
 
       public:
-        CanvasPacketDrop(cIconFigure *figure, int moduleId, cPacket *packet, simtime_t dropTime);
+        CanvasPacketDrop(cIconFigure *figure, int moduleId, cPacket *packet, simtime_t dropSimulationTime, double dropAnimationTime, int dropRealTime);
         virtual ~CanvasPacketDrop() { delete figure; }
     };
 

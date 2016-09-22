@@ -50,11 +50,22 @@ void PathVisualizerBase::initialize(int stage)
 
 void PathVisualizerBase::refreshDisplay() const
 {
-    auto now = simTime();
+    auto currentSimulationTime = simTime();
+    double currentRealTime = getRealTime();
+    double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
     std::vector<const Path *> removedPaths;
     for (auto it : paths) {
         auto path = it.second;
-        auto alpha = std::min(1.0, std::pow(2.0, -(now - path->lastUsage).dbl() / fadeOutHalfLife));
+        double delta;
+        if (!strcmp(fadeOutMode, "simulationTime"))
+            delta = (currentSimulationTime - path->lastUsageSimulationTime).dbl();
+        else if (!strcmp(fadeOutMode, "animationTime"))
+            delta = currentAnimationTime - path->lastUsageAnimationTime;
+        else if (!strcmp(fadeOutMode, "realTime"))
+            delta = currentRealTime - path->lastUsageRealTime;
+        else
+            throw cRuntimeError("Unknown fadeOutMode: %s", fadeOutMode);
+        auto alpha = std::min(1.0, std::pow(2.0, -delta / fadeOutHalfLife));
         if (alpha < 0.01)
             removedPaths.push_back(path);
         else
@@ -152,8 +163,11 @@ void PathVisualizerBase::updatePath(const std::vector<int>& moduleIds)
         path = createPath(moduleIds);
         addPath(key, path);
     }
-    else
-        path->lastUsage = simTime();
+    else {
+        path->lastUsageSimulationTime = getSimulation()->getSimTime();
+        path->lastUsageAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+        path->lastUsageRealTime = getRealTime();
+    }
 }
 
 void PathVisualizerBase::receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG)
