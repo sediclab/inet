@@ -1,7 +1,3 @@
-//
-// This program is property of its copyright holder. All rights reserved.
-//
-
 package inet.examples.visualization.packetdrop;
 
 import inet.visualizer.integrated.IntegratedVisualizer;

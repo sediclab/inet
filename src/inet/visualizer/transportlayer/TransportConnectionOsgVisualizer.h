@@ -42,6 +42,7 @@ class INET_API TransportConnectionOsgVisualizer : public TransportConnectionVisu
     NetworkNodeOsgVisualizer *networkNodeVisualizer = nullptr;
 
   protected:
+    virtual void initialize(int stage) override;
     virtual void addConnection(const Connection *connection) override;
     virtual void removeConnection(const Connection *connection) override;
 

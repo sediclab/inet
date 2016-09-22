@@ -32,16 +32,25 @@ TransportConnectionOsgVisualizer::OsgConnection::OsgConnection(osg::Node *source
 {
 }
 
+void TransportConnectionOsgVisualizer::initialize(int stage)
+{
+    TransportConnectionVisualizerBase::initialize(stage);
+    if (!hasGUI()) return;
+    if (stage == INITSTAGE_LOCAL) {
+        networkNodeVisualizer = getModuleFromPar<NetworkNodeOsgVisualizer>(par("networkNodeVisualizerModule"), this);
+    }
+}
+
 void TransportConnectionOsgVisualizer::addConnection(const Connection *connection)
 {
     TransportConnectionVisualizerBase::addConnection(connection);
     auto osgConnection = static_cast<const OsgConnection *>(connection);
     auto sourceModule = getSimulation()->getModule(connection->sourceModuleId);
     auto sourceVisualization = networkNodeVisualizer->getNeworkNodeVisualization(getContainingNode(sourceModule));
-    sourceVisualization->addAnnotation(osgConnection->sourceNode, osg::Vec3d(0, 0, 8), 0);
+    sourceVisualization->addAnnotation(osgConnection->sourceNode, osg::Vec3d(0, 0, 32), 0);
     auto destinationModule = getSimulation()->getModule(connection->destinationModuleId);
     auto destinationVisualization = networkNodeVisualizer->getNeworkNodeVisualization(getContainingNode(destinationModule));
-    destinationVisualization->addAnnotation(osgConnection->destinationNode, osg::Vec3d(0, 0, 8), 0);
+    destinationVisualization->addAnnotation(osgConnection->destinationNode, osg::Vec3d(0, 0, 32), 0);
 }
 
 void TransportConnectionOsgVisualizer::removeConnection(const Connection *connection)
@@ -58,7 +67,7 @@ void TransportConnectionOsgVisualizer::removeConnection(const Connection *connec
 
 osg::Node *TransportConnectionOsgVisualizer::createConnectionEndNode(tcp::TCPConnection *tcpConnection) const
 {
-    auto path = resolveResourcePath("misc/marker");
+    auto path = resolveResourcePath("misc/marker.png");
     auto image = inet::osg::createImage(path.c_str());
     auto texture = new osg::Texture2D();
     texture->setImage(image);
@@ -67,11 +76,14 @@ osg::Node *TransportConnectionOsgVisualizer::createConnectionEndNode(tcp::TCPCon
     stateSet->setTextureAttributeAndModes(0, texture);
     stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
     stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+    stateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+    auto color = cFigure::GOOD_DARK_COLORS[connections.size() % (sizeof(cFigure::GOOD_DARK_COLORS) / sizeof(cFigure::Color))];
+    auto colorArray = new osg::Vec4Array();
+    colorArray->push_back(osg::Vec4((double)color.red / 255.0, (double)color.green / 255.0, (double)color.blue / 255.0, 1));
+    geometry->setColorArray(colorArray, osg::Array::BIND_OVERALL);
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
-    auto color = cFigure::GOOD_DARK_COLORS[connections.size() % (sizeof(cFigure::GOOD_DARK_COLORS) / sizeof(cFigure::Color))];
-    // TODO: use color for tinting
     return geode;
 }
 

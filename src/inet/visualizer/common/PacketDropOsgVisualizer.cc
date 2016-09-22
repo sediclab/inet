@@ -38,7 +38,7 @@ PacketDropOsgVisualizer::OsgPacketDrop::~OsgPacketDrop()
 
 const PacketDropVisualizerBase::PacketDrop *PacketDropOsgVisualizer::createPacketDrop(cModule *module, cPacket *packet) const
 {
-    auto path = resolveResourcePath(icon);
+    auto path = resolveResourcePath("msg/packet_s.png");
     auto image = inet::osg::createImage(path.c_str());
     auto texture = new osg::Texture2D();
     texture->setImage(image);
@@ -47,6 +47,7 @@ const PacketDropVisualizerBase::PacketDrop *PacketDropOsgVisualizer::createPacke
     stateSet->setTextureAttributeAndModes(0, texture);
     stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
     stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+    stateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
@@ -55,10 +56,11 @@ const PacketDropVisualizerBase::PacketDrop *PacketDropOsgVisualizer::createPacke
 
 void PacketDropOsgVisualizer::setAlpha(const PacketDrop *packetDrop, double alpha) const
 {
-    auto osgPacketDrop = static_cast<const OsgPacketDrop *>(packetDrop);
-    auto node = osgPacketDrop->node;
-    auto material = static_cast<osg::Material *>(node->getOrCreateStateSet()->getAttribute(osg::StateAttribute::MATERIAL));
-    material->setAlpha(osg::Material::FRONT_AND_BACK, alpha);
+    // TODO:
+//    auto osgPacketDrop = static_cast<const OsgPacketDrop *>(packetDrop);
+//    auto node = osgPacketDrop->node;
+//    auto material = static_cast<osg::Material *>(node->getOrCreateStateSet()->getAttribute(osg::StateAttribute::MATERIAL));
+//    material->setAlpha(osg::Material::FRONT_AND_BACK, alpha);
 }
 
 void PacketDropOsgVisualizer::addPacketDrop(const PacketDrop *packetDrop)

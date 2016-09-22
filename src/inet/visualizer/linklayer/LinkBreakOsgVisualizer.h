@@ -39,8 +39,6 @@ class INET_API LinkBreakOsgVisualizer : public LinkBreakVisualizerBase
     };
 
   protected:
-    virtual void initialize(int stage) override;
-
     virtual void setAlpha(const LinkBreak *linkBreak, double alpha) const override;
     virtual const LinkBreak *createLinkBreak(cModule *transmitter, cModule *receiver) const override;
     virtual void addLinkBreak(const LinkBreak *linkBreak) override;

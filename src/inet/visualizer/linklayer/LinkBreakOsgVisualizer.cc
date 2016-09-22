@@ -30,6 +30,17 @@ namespace visualizer {
 
 Define_Module(LinkBreakOsgVisualizer);
 
+LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, simtime_t breakTime) :
+    LinkBreak(breakTime),
+    node(node)
+{
+}
+
+LinkBreakOsgVisualizer::OsgLinkBreak::~OsgLinkBreak()
+{
+    // TODO: delete node;
+}
+
 void LinkBreakOsgVisualizer::setAlpha(const LinkBreak *linkBreak, double alpha) const
 {
     auto osgLinkBreak = static_cast<const OsgLinkBreak *>(linkBreak);
@@ -49,6 +60,7 @@ const LinkBreakVisualizerBase::LinkBreak *LinkBreakOsgVisualizer::createLinkBrea
     stateSet->setTextureAttributeAndModes(0, texture);
     stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
     stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+    stateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
