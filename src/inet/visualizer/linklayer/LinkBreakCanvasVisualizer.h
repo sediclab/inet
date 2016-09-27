@@ -33,7 +33,7 @@ class INET_API LinkBreakCanvasVisualizer : public LinkBreakVisualizerBase
         cIconFigure *figure = nullptr;
 
       public:
-        CanvasLinkBreak(cIconFigure *figure, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
+        CanvasLinkBreak(cIconFigure *figure, int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
         virtual ~CanvasLinkBreak() { delete figure; }
     };
 
@@ -45,6 +45,7 @@ class INET_API LinkBreakCanvasVisualizer : public LinkBreakVisualizerBase
   protected:
     virtual void initialize(int stage) override;
 
+    virtual void setPosition(cModule *node, const Coord& position) const override;
     virtual void setAlpha(const LinkBreak *linkBreak, double alpha) const override;
     virtual const LinkBreak *createLinkBreak(cModule *transmitter, cModule *receiver) const override;
     virtual void addLinkBreak(const LinkBreak *linkBreak) override;

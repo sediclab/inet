@@ -51,7 +51,7 @@ void PacketDropCanvasVisualizer::setAlpha(const PacketDrop *packetDrop, double a
     figure->setOpacity(alpha);
     auto position = getPosition(getContainingNode(getSimulation()->getModule(packetDrop->moduleId)));
     double dx = 10 / alpha;
-    double dy = pow((dx / 4 - 9), 2) - 42;
+    double dy = -16 + pow((dx / 4 - 9), 2) - 42;
     figure->setPosition(canvasProjection->computeCanvasPoint(position) + cFigure::Point(dx, dy));
 }
 

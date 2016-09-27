@@ -51,8 +51,8 @@ void PathVisualizerBase::initialize(int stage)
 void PathVisualizerBase::refreshDisplay() const
 {
     auto currentSimulationTime = simTime();
-    double currentRealTime = getRealTime();
     double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+    double currentRealTime = getRealTime();
     std::vector<const Path *> removedPaths;
     for (auto it : paths) {
         auto path = it.second;
@@ -101,7 +101,13 @@ void PathVisualizerBase::addPath(std::pair<int, int> sourceAndDestination, const
 
 void PathVisualizerBase::removePath(std::pair<int, int> sourceAndDestination, const Path *path)
 {
-    paths.erase(paths.find(sourceAndDestination));
+    auto range = paths.equal_range(sourceAndDestination);
+    for (auto it = range.first; it != range.second; it++) {
+        if (it->second == path) {
+            paths.erase(it);
+            break;
+        }
+    }
     updateOffsets();
     updatePositions();
 }

@@ -31,12 +31,14 @@ class INET_API LinkBreakVisualizerBase : public VisualizerBase, public cListener
   protected:
     class INET_API LinkBreak {
       public:
-        simtime_t breakSimulationTime;
-        double breakAnimationTime;
-        double breakRealTime;
+        const int transmitterModuleId;
+        const int receiverModuleId;
+        mutable simtime_t breakSimulationTime;
+        mutable double breakAnimationTime;
+        mutable double breakRealTime;
 
       public:
-        LinkBreak(simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
+        LinkBreak(int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
         virtual ~LinkBreak() {}
     };
 
@@ -52,13 +54,14 @@ class INET_API LinkBreakVisualizerBase : public VisualizerBase, public cListener
     double fadeOutHalfLife = NaN;
     //@}
 
-    std::vector<const LinkBreak *> linkBreaks;
+    std::map<std::pair<int, int>, const LinkBreak *> linkBreaks;
 
   protected:
     virtual void initialize(int stage) override;
     virtual void refreshDisplay() const override;
     virtual void receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG) override;
 
+    virtual void setPosition(cModule *node, const Coord& position) const = 0;
     virtual void setAlpha(const LinkBreak *linkBreak, double alpha) const = 0;
     virtual const LinkBreak *createLinkBreak(cModule *transmitter, cModule *receiver) const = 0;
     virtual void addLinkBreak(const LinkBreak *linkBreak);

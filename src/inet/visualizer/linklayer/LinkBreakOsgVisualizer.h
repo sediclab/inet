@@ -34,11 +34,12 @@ class INET_API LinkBreakOsgVisualizer : public LinkBreakVisualizerBase
         osg::Node *node = nullptr;
 
       public:
-        OsgLinkBreak(osg::Node *node, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
+        OsgLinkBreak(osg::Node *node, int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime);
         virtual ~OsgLinkBreak();
     };
 
   protected:
+    virtual void setPosition(cModule *node, const Coord& position) const override;
     virtual void setAlpha(const LinkBreak *linkBreak, double alpha) const override;
     virtual const LinkBreak *createLinkBreak(cModule *transmitter, cModule *receiver) const override;
     virtual void addLinkBreak(const LinkBreak *linkBreak) override;

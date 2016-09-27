@@ -24,8 +24,8 @@ namespace visualizer {
 
 Define_Module(LinkBreakCanvasVisualizer);
 
-LinkBreakCanvasVisualizer::CanvasLinkBreak::CanvasLinkBreak(cIconFigure *figure, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
-    LinkBreak(breakSimulationTime, breakAnimationTime, breakRealTime),
+LinkBreakCanvasVisualizer::CanvasLinkBreak::CanvasLinkBreak(cIconFigure *figure, int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    LinkBreak(transmitterModuleId, receiverModuleId, breakSimulationTime, breakAnimationTime, breakRealTime),
     figure(figure)
 {
 }
@@ -41,6 +41,19 @@ void LinkBreakCanvasVisualizer::initialize(int stage)
         linkBreakGroup = new cGroupFigure();
         linkBreakGroup->setZIndex(zIndex);
         canvas->addFigure(linkBreakGroup);
+    }
+}
+
+void LinkBreakCanvasVisualizer::setPosition(cModule *node, const Coord& position) const
+{
+    for (auto it : linkBreaks) {
+        auto linkBreak = static_cast<const CanvasLinkBreak *>(it.second);
+        auto transmitter = getSimulation()->getModule(linkBreak->transmitterModuleId);
+        auto receiver = getSimulation()->getModule(linkBreak->receiverModuleId);
+        auto transmitterPosition = canvasProjection->computeCanvasPoint(getPosition(getContainingNode(transmitter)));
+        auto receiverPosition = canvasProjection->computeCanvasPoint(getPosition(getContainingNode(receiver)));
+        auto figure = linkBreak->figure;
+        figure->setPosition((transmitterPosition + receiverPosition) / 2);
     }
 }
 
@@ -60,7 +73,7 @@ const LinkBreakVisualizerBase::LinkBreak *LinkBreakCanvasVisualizer::createLinkB
     figure->setTintAmount(iconTintAmount);
     figure->setTintColor(iconTintColor);
     figure->setPosition((transmitterPosition + receiverPosition) / 2);
-    return new CanvasLinkBreak(figure, simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
+    return new CanvasLinkBreak(figure, transmitter->getId(), receiver->getId(), simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void LinkBreakCanvasVisualizer::addLinkBreak(const LinkBreak *linkBreak)

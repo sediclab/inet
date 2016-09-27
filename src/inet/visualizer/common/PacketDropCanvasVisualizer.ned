@@ -32,5 +32,7 @@ simple PacketDropCanvasVisualizer extends PacketDropVisualizerBase like IPacketD
 {
     parameters:
         double zIndex = default(0); // determines the drawing order of figures relative to other visualizers
+        double dx = default(10); // specifies where the packet drop animation crosses the X axis
+        double dy = default(10); // specifies where the packet drop animation turns over along the Y axis 
         @class(PacketDropCanvasVisualizer);
 }

@@ -30,8 +30,8 @@ namespace visualizer {
 
 Define_Module(LinkBreakOsgVisualizer);
 
-LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
-    LinkBreak(breakSimulationTime, breakAnimationTime, breakRealTime),
+LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    LinkBreak(transmitterModuleId, receiverModuleId, breakSimulationTime, breakAnimationTime, breakRealTime),
     node(node)
 {
 }
@@ -39,6 +39,11 @@ LinkBreakOsgVisualizer::OsgLinkBreak::OsgLinkBreak(osg::Node *node, simtime_t br
 LinkBreakOsgVisualizer::OsgLinkBreak::~OsgLinkBreak()
 {
     // TODO: delete node;
+}
+
+void LinkBreakOsgVisualizer::setPosition(cModule *node, const Coord& position) const
+{
+    // TODO:
 }
 
 void LinkBreakOsgVisualizer::setAlpha(const LinkBreak *linkBreak, double alpha) const
@@ -65,7 +70,7 @@ const LinkBreakVisualizerBase::LinkBreak *LinkBreakOsgVisualizer::createLinkBrea
     auto geode = new osg::Geode();
     geode->addDrawable(geometry);
     // TODO: apply tinting
-    return new OsgLinkBreak(geode, simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
+    return new OsgLinkBreak(geode, transmitter->getId(), receiver->getId(), simTime(), getSimulation()->getEnvir()->getAnimationTime(), getRealTime());
 }
 
 void LinkBreakOsgVisualizer::addLinkBreak(const LinkBreak *linkBreak)

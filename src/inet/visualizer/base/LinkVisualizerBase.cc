@@ -51,8 +51,8 @@ void LinkVisualizerBase::initialize(int stage)
 void LinkVisualizerBase::refreshDisplay() const
 {
     auto currentSimulationTime = simTime();
-    double currentRealTime = getRealTime();
     double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+    double currentRealTime = getRealTime();
     std::vector<const Link *> removedLinks;
     for (auto it : links) {
         auto link = it.second;

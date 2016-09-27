@@ -67,8 +67,8 @@ void PacketDropVisualizerBase::initialize(int stage)
 void PacketDropVisualizerBase::refreshDisplay() const
 {
     auto currentSimulationTime = simTime();
-    double currentRealTime = getRealTime();
     double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+    double currentRealTime = getRealTime();
     std::vector<const PacketDrop *> removedPacketDrops;
     for (auto packetDrop : packetDrops) {
         double delta;
@@ -95,6 +95,7 @@ void PacketDropVisualizerBase::refreshDisplay() const
 void PacketDropVisualizerBase::receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG)
 {
     if (signal == IMobility::mobilityStateChangedSignal) {
+        // TODO: update packet drop positions
     }
     else if (signal == LayeredProtocolBase::packetFromLowerDroppedSignal || signal == LayeredProtocolBase::packetFromUpperDroppedSignal) {
         if (packetNameMatcher.matches(object->getFullName()))

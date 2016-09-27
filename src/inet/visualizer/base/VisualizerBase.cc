@@ -32,12 +32,15 @@ void VisualizerBase::initialize(int stage)
         visualizerTargetModule = *path == '\0' ? getSystemModule() : getModuleByPath(path);
         if (visualizerTargetModule == nullptr)
             throw cRuntimeError("Module not found on path '%s' defined by par 'visualizerTargetModule'", path);
+        visualizerTargetModule->getCanvas()->setAnimationSpeed(NaN, this);
     }
 }
 
 double VisualizerBase::getRealTime() const
 {
-    return (double)clock() / (double)CLOCKS_PER_SEC;
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec + tv.tv_usec / 1.0E+6;
 }
 
 Coord VisualizerBase::getPosition(cModule *node) const

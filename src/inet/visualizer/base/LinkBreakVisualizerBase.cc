@@ -19,6 +19,7 @@
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/NotifierConsts.h"
 #include "inet/linklayer/contract/IMACFrame.h"
+#include "inet/mobility/contract/IMobility.h"
 #include "inet/networklayer/common/L3AddressResolver.h"
 #include "inet/visualizer/base/LinkBreakVisualizerBase.h"
 
@@ -26,7 +27,9 @@ namespace inet {
 
 namespace visualizer {
 
-LinkBreakVisualizerBase::LinkBreak::LinkBreak(simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+LinkBreakVisualizerBase::LinkBreak::LinkBreak(int transmitterModuleId, int receiverModuleId, simtime_t breakSimulationTime, double breakAnimationTime, double breakRealTime) :
+    transmitterModuleId(transmitterModuleId),
+    receiverModuleId(receiverModuleId),
     breakSimulationTime(breakSimulationTime),
     breakAnimationTime(breakAnimationTime),
     breakRealTime(breakRealTime)
@@ -39,6 +42,7 @@ void LinkBreakVisualizerBase::initialize(int stage)
     if (!hasGUI()) return;
     if (stage == INITSTAGE_LOCAL) {
         subscriptionModule = *par("subscriptionModule").stringValue() == '\0' ? getSystemModule() : getModuleFromPar<cModule>(par("subscriptionModule"), this);
+        subscriptionModule->subscribe(IMobility::mobilityStateChangedSignal, this);
         subscriptionModule->subscribe(NF_LINK_BREAK, this);
         nodeMatcher.setPattern(par("nodeFilter"), true, true, true);
         icon = par("icon");
@@ -53,10 +57,11 @@ void LinkBreakVisualizerBase::initialize(int stage)
 void LinkBreakVisualizerBase::refreshDisplay() const
 {
     auto currentSimulationTime = simTime();
-    double currentRealTime = getRealTime();
     double currentAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+    double currentRealTime = getRealTime();
     std::vector<const LinkBreak *> removedLinkBreaks;
-    for (auto linkBreak : linkBreaks) {
+    for (auto it : linkBreaks) {
+        auto linkBreak = it.second;
         double delta;
         if (!strcmp(fadeOutMode, "simulationTime"))
             delta = (currentSimulationTime - linkBreak->breakSimulationTime).dbl();
@@ -80,25 +85,45 @@ void LinkBreakVisualizerBase::refreshDisplay() const
 
 void LinkBreakVisualizerBase::receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG)
 {
-    if (signal == NF_LINK_BREAK) {
+    if (signal == IMobility::mobilityStateChangedSignal) {
+        auto mobility = dynamic_cast<IMobility *>(object);
+        auto position = mobility->getCurrentPosition();
+        auto module = check_and_cast<cModule *>(source);
+        auto node = getContainingNode(module);
+        setPosition(node, position);
+    }
+    else if (signal == NF_LINK_BREAK) {
         auto frame = dynamic_cast<IMACFrame *>(object);
         if (frame != nullptr) {
             auto transmitter = findNode(frame->getTransmitterAddress());
             auto receiver = findNode(frame->getReceiverAddress());
-            if (nodeMatcher.matches(transmitter->getFullPath().c_str()) && nodeMatcher.matches(receiver->getFullPath().c_str()))
-                addLinkBreak(createLinkBreak(transmitter, receiver));
+            if (nodeMatcher.matches(transmitter->getFullPath().c_str()) && nodeMatcher.matches(receiver->getFullPath().c_str())) {
+                auto key = std::pair<int, int>(transmitter->getId(), receiver->getId());
+                auto it = linkBreaks.find(key);
+                if (it == linkBreaks.end())
+                    addLinkBreak(createLinkBreak(transmitter, receiver));
+                else {
+                    auto linkBreak = it->second;
+                    linkBreak->breakSimulationTime = simTime();
+                    linkBreak->breakAnimationTime = getSimulation()->getEnvir()->getAnimationTime();
+                    linkBreak->breakRealTime = getRealTime();
+                }
+            }
         }
     }
 }
 
 void LinkBreakVisualizerBase::addLinkBreak(const LinkBreak *linkBreak)
 {
-    linkBreaks.push_back(linkBreak);
+    auto key = std::pair<int, int>(linkBreak->transmitterModuleId, linkBreak->receiverModuleId);
+    linkBreaks[key] = linkBreak;
 }
 
 void LinkBreakVisualizerBase::removeLinkBreak(const LinkBreak *linkBreak)
 {
-    linkBreaks.erase(std::remove(linkBreaks.begin(), linkBreaks.end(), linkBreak), linkBreaks.end());
+    auto key = std::pair<int, int>(linkBreak->transmitterModuleId, linkBreak->receiverModuleId);
+    auto it = linkBreaks.find(key);
+    linkBreaks.erase(it);
 }
 
 // TODO: inefficient, create L2AddressResolver?
