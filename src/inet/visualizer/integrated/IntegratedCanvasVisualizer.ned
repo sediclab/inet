@@ -18,13 +18,15 @@
 
 package inet.visualizer.integrated;
 
-import inet.visualizer.contract.ITransportConnectionVisualizer;
 import inet.visualizer.contract.IDataLinkVisualizer;
+import inet.visualizer.contract.IIeee80211Visualizer;
 import inet.visualizer.contract.IInfoVisualizer;
 import inet.visualizer.contract.IIntegratedVisualizer;
 import inet.visualizer.contract.ILinkBreakVisualizer;
+import inet.visualizer.contract.IMacAddressVisualizer;
 import inet.visualizer.contract.IMediumVisualizer;
 import inet.visualizer.contract.IMobilityVisualizer;
+import inet.visualizer.contract.INetworkAddressVisualizer;
 import inet.visualizer.contract.INetworkConnectionVisualizer;
 import inet.visualizer.contract.INetworkNodeVisualizer;
 import inet.visualizer.contract.INetworkRouteVisualizer;
@@ -35,6 +37,7 @@ import inet.visualizer.contract.IRoutingTableVisualizer;
 import inet.visualizer.contract.ISceneVisualizer;
 import inet.visualizer.contract.IStatisticVisualizer;
 import inet.visualizer.contract.ITracingObstacleLossVisualizer;
+import inet.visualizer.contract.ITransportConnectionVisualizer;
 import inet.visualizer.contract.ITransportRouteVisualizer;
 
 //
@@ -54,18 +57,21 @@ module IntegratedCanvasVisualizer like IIntegratedVisualizer
         string networkNodeVisualizerType = default("NetworkNodeCanvasVisualizer");
         string networkConnectionVisualizerType = default("NetworkConnectionCanvasVisualizer");
         string mobilityVisualizerType = default("MobilityCanvasVisualizer");
+        string statisticVisualizerType = default("StatisticCanvasVisualizer");
+        string infoVisualizerType = default("InfoCanvasVisualizer");
         string mediumVisualizerType = default("MediumCanvasVisualizer");
         string obstacleLossVisualizerType = default("TracingObstacleLossCanvasVisualizer");
+        string packetDropVisualizerType = default("PacketDropCanvasVisualizer");
         string physicalLinkVisualizerType = default("PhysicalLinkCanvasVisualizer");
+        string macAddressVisualizerType = default("MacAddressCanvasVisualizer");
         string dataLinkVisualizerType = default("DataLinkCanvasVisualizer");
         string linkBreakVisualizerType = default("LinkBreakCanvasVisualizer");
+        string ieee80211VisualizerType = default("Ieee80211CanvasVisualizer");
+        string networkAddressVisualizerType = default("NetworkAddressCanvasVisualizer");
         string networkRouteVisualizerType = default("NetworkRouteCanvasVisualizer");
         string routingTableVisualizerType = default("RoutingTableCanvasVisualizer");
         string transportRouteVisualizerType = default("TransportRouteCanvasVisualizer");
         string transportConnectionVisualizerType = default("TransportConnectionCanvasVisualizer");
-        string packetDropVisualizerType = default("PacketDropCanvasVisualizer");
-        string infoVisualizerType = default("InfoCanvasVisualizer");
-        string statisticVisualizerType = default("StatisticCanvasVisualizer");
     submodules:
         sceneVisualizer: <sceneVisualizerType> like ISceneVisualizer if sceneVisualizerType != "" {
             parameters:
@@ -87,52 +93,64 @@ module IntegratedCanvasVisualizer like IIntegratedVisualizer
             parameters:
                 @display("p=150,450");
         }
-        infoVisualizer: <infoVisualizerType> like IInfoVisualizer if infoVisualizerType != "" {
-            parameters:
-                @display("p=150,650");
-        }
-        packetDropVisualizer: <packetDropVisualizerType> like IPacketDropVisualizer if packetDropVisualizerType != "" {
-            parameters:
-                @display("p=150,750");
-        }
         statisticVisualizer: <statisticVisualizerType> like IStatisticVisualizer if statisticVisualizerType != "" {
             parameters:
                 @display("p=150,550");
         }
+        infoVisualizer: <infoVisualizerType> like IInfoVisualizer if infoVisualizerType != "" {
+            parameters:
+                @display("p=150,650");
+        }
         mediumVisualizer: <mediumVisualizerType> like IMediumVisualizer if mediumVisualizerType != "" {
             parameters:
-                @display("p=450,50");
+                @display("p=150,750");
         }
         obstacleLossVisualizer: <obstacleLossVisualizerType> like ITracingObstacleLossVisualizer if obstacleLossVisualizerType != "" {
             parameters:
-                @display("p=450,150");
+                @display("p=150,850");
+        }
+        packetDropVisualizer: <packetDropVisualizerType> like IPacketDropVisualizer if packetDropVisualizerType != "" {
+            parameters:
+                @display("p=150,950");
         }
         physicalLinkVisualizer: <physicalLinkVisualizerType> like IPhysicalLinkVisualizer if physicalLinkVisualizerType != "" {
             parameters:
-                @display("p=450,250");
+                @display("p=450,50");
+        }
+        macAddressVisualizer: <macAddressVisualizerType> like IMacAddressVisualizer if macAddressVisualizerType != "" {
+            parameters:
+                @display("p=450,150");
         }
         dataLinkVisualizer: <dataLinkVisualizerType> like IDataLinkVisualizer if dataLinkVisualizerType != "" {
             parameters:
-                @display("p=450,350");
+                @display("p=450,250");
         }
         linkBreakVisualizer: <linkBreakVisualizerType> like ILinkBreakVisualizer if linkBreakVisualizerType != "" {
             parameters:
+                @display("p=450,350");
+        }
+        ieee80211Visualizer: <ieee80211VisualizerType> like IIeee80211Visualizer if ieee80211VisualizerType != "" {
+            parameters:
                 @display("p=450,450");
         }
-        networkRouteVisualizer: <networkRouteVisualizerType> like INetworkRouteVisualizer if networkRouteVisualizerType != "" {
+        networkAddressVisualizer: <networkAddressVisualizerType> like INetworkAddressVisualizer if networkAddressVisualizerType != "" {
             parameters:
                 @display("p=450,550");
         }
-        routingTableVisualizer: <routingTableVisualizerType> like IRoutingTableVisualizer if routingTableVisualizerType != "" {
+        networkRouteVisualizer: <networkRouteVisualizerType> like INetworkRouteVisualizer if networkRouteVisualizerType != "" {
             parameters:
                 @display("p=450,650");
         }
-        transportRouteVisualizer: <transportRouteVisualizerType> like ITransportRouteVisualizer if transportRouteVisualizerType != "" {
+        routingTableVisualizer: <routingTableVisualizerType> like IRoutingTableVisualizer if routingTableVisualizerType != "" {
             parameters:
                 @display("p=450,750");
         }
-        transportConnectionVisualizer: <transportConnectionVisualizerType> like ITransportConnectionVisualizer if transportConnectionVisualizerType != "" {
+        transportRouteVisualizer: <transportRouteVisualizerType> like ITransportRouteVisualizer if transportRouteVisualizerType != "" {
             parameters:
                 @display("p=450,850");
+        }
+        transportConnectionVisualizer: <transportConnectionVisualizerType> like ITransportConnectionVisualizer if transportConnectionVisualizerType != "" {
+            parameters:
+                @display("p=450,950");
         }
 }
