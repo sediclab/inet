@@ -166,7 +166,7 @@ void DcfUpperMac::lowerFrameReceived(Ieee80211Frame *frame)
 
     if (!utils->isForUs(frame)) {
         EV_INFO << "This frame is not for us" << std::endl;
-        emit(LayeredProtocolBase::packetFromLowerDroppedSignal, frame);
+        // TODO: add reason? emit(LayeredProtocolBase::packetFromLowerDroppedSignal, frame);
         delete frame;
         if (frameExchange)
             frameExchange->corruptedOrNotForUsFrameReceived();

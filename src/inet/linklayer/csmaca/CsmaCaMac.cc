@@ -346,7 +346,7 @@ void CsmaCaMac::handleWithFsm(cMessage *msg)
             FSMA_Event_Transition(Receive-Bit-Error,
                                   isLowerMessage(msg) && frame->hasBitError(),
                                   IDLE,
-                emit(LayeredProtocolBase::packetFromLowerDroppedSignal, frame);
+                // TODO: reason? emit(LayeredProtocolBase::packetFromLowerDroppedSignal, frame);
                 delete frame;
                 numCollision++;
                 resetStateVariables();
