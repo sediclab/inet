@@ -18,6 +18,7 @@
 #ifndef __INET_STATISTICCANVASVISUALIZER_H
 #define __INET_STATISTICCANVASVISUALIZER_H
 
+#include "inet/common/figures/BoxedLabelFigure.h"
 #include "inet/visualizer/base/StatisticVisualizerBase.h"
 #include "inet/visualizer/networknode/NetworkNodeCanvasVisualization.h"
 
@@ -31,11 +32,10 @@ class INET_API StatisticCanvasVisualizer : public StatisticVisualizerBase
     class CanvasCacheEntry : public CacheEntry {
       public:
         NetworkNodeCanvasVisualization *visualization = nullptr;
-        cGroupFigure *figure = nullptr;
-        cFigure::Point size;
+        BoxedLabelFigure *figure = nullptr;
 
       public:
-        CanvasCacheEntry(const char *unit, NetworkNodeCanvasVisualization *visualization, cGroupFigure *figure, cFigure::Point size);
+        CanvasCacheEntry(const char *unit, NetworkNodeCanvasVisualization *visualization, BoxedLabelFigure *figure);
     };
 
   protected:

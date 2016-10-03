@@ -25,11 +25,10 @@ namespace visualizer {
 
 Define_Module(StatisticCanvasVisualizer);
 
-StatisticCanvasVisualizer::CanvasCacheEntry::CanvasCacheEntry(const char *unit, NetworkNodeCanvasVisualization *visualization, cGroupFigure *figure, cFigure::Point size) :
+StatisticCanvasVisualizer::CanvasCacheEntry::CanvasCacheEntry(const char *unit, NetworkNodeCanvasVisualization *visualization, BoxedLabelFigure *figure) :
     CacheEntry(unit),
     visualization(visualization),
-    figure(figure),
-    size(size)
+    figure(figure)
 {
 }
 
@@ -44,35 +43,22 @@ void StatisticCanvasVisualizer::initialize(int stage)
 
 StatisticVisualizerBase::CacheEntry *StatisticCanvasVisualizer::createCacheEntry(cComponent *source, simsignal_t signal)
 {
-    double width = 100;
-    double height = 24;
-    double spacing = 4;
-    auto labelFigure = new cLabelFigure("text");
-    labelFigure->setColor(fontColor);
-    labelFigure->setPosition(cFigure::Point(spacing, spacing));
-    auto rectangleFigure = new cRectangleFigure("border");
-    rectangleFigure->setCornerRx(spacing);
-    rectangleFigure->setCornerRy(spacing);
-    rectangleFigure->setFilled(true);
-    rectangleFigure->setFillOpacity(0.5);
-    rectangleFigure->setFillColor(backgroundColor);
-    rectangleFigure->setLineColor(cFigure::BLACK);
-    rectangleFigure->setBounds(cFigure::Rectangle(0, 0, width, height));
-    auto groupFigure = new cGroupFigure("statistic");
-    groupFigure->addFigure(rectangleFigure);
-    groupFigure->addFigure(labelFigure);
-    groupFigure->setZIndex(zIndex);
+    auto labelFigure = new BoxedLabelFigure("statistic");
+    labelFigure->setFontColor(fontColor);
+    labelFigure->setBackgroundColor(backgroundColor);
+    labelFigure->setText("");
+    labelFigure->setZIndex(zIndex);
     auto networkNodeVisualizer = getModuleFromPar<NetworkNodeCanvasVisualizer>(par("networkNodeVisualizerModule"), this);
     auto networkNode = getContainingNode(check_and_cast<cModule *>(source));
     auto visualization = networkNodeVisualizer->getNeworkNodeVisualization(networkNode);
-    return new CanvasCacheEntry(getUnit(source), visualization, groupFigure, cFigure::Point(width, height));
+    return new CanvasCacheEntry(getUnit(source), visualization, labelFigure);
 }
 
 void StatisticCanvasVisualizer::addCacheEntry(std::pair<int, int> moduleAndSignal, CacheEntry *cacheEntry)
 {
     StatisticVisualizerBase::addCacheEntry(moduleAndSignal, cacheEntry);
     auto canvasCacheEntry = static_cast<CanvasCacheEntry *>(cacheEntry);
-    canvasCacheEntry->visualization->addAnnotation(canvasCacheEntry->figure, canvasCacheEntry->size);
+    canvasCacheEntry->visualization->addAnnotation(canvasCacheEntry->figure, canvasCacheEntry->figure->getBounds().getSize());
 }
 
 void StatisticCanvasVisualizer::removeCacheEntry(std::pair<int, int> moduleAndSignal, CacheEntry *cacheEntry)
@@ -86,8 +72,7 @@ void StatisticCanvasVisualizer::refreshStatistic(CacheEntry *cacheEntry)
 {
     auto canvasCacheEntry = static_cast<CanvasCacheEntry *>(cacheEntry);
     auto text = getText(cacheEntry);
-    auto labelFigure = static_cast<cLabelFigure *>(canvasCacheEntry->figure->getFigure(1));
-    labelFigure->setText(text.c_str());
+    canvasCacheEntry->figure->setText(text.c_str());
 }
 
 } // namespace visualizer
