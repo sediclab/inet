@@ -19,6 +19,7 @@
 #define __INET_IEEE80211CANVASVISUALIZER_H
 
 #include "inet/visualizer/base/Ieee80211VisualizerBase.h"
+#include "inet/visualizer/networknode/NetworkNodeCanvasVisualizer.h"
 
 namespace inet {
 
@@ -26,6 +27,26 @@ namespace visualizer {
 
 class INET_API Ieee80211CanvasVisualizer : public Ieee80211VisualizerBase
 {
+  protected:
+    class INET_API CanvasCacheEntry : public CacheEntry {
+      public:
+        cIconFigure *figure = nullptr;
+        NetworkNodeCanvasVisualization *visualization = nullptr;
+
+      public:
+        CanvasCacheEntry(cIconFigure *figure, NetworkNodeCanvasVisualization *visualization, int nodeId, int interfaceId);
+    };
+
+  protected:
+    double zIndex = NaN;
+    NetworkNodeCanvasVisualizer *networkNodeVisualizer = nullptr;
+
+  protected:
+    virtual void initialize(int stage) override;
+
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) override;
+    virtual void addCacheEntry(CacheEntry *cacheEntry) override;
+    virtual void removeCacheEntry(CacheEntry *cacheEntry) override;
 };
 
 } // namespace visualizer

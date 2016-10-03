@@ -23,6 +23,11 @@ namespace visualizer {
 
 Define_Module(Ieee80211OsgVisualizer);
 
+Ieee80211VisualizerBase::CacheEntry *Ieee80211OsgVisualizer::createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry)
+{
+    return nullptr;
+}
+
 } // namespace visualizer
 
 } // namespace inet

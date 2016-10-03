@@ -20,5 +20,8 @@ package inet.visualizer.base;
 simple Ieee80211VisualizerBase extends VisualizerBase
 {
     parameters:
+        string networkNodeVisualizerModule = default("^.networkNodeVisualizer");
+        string subscriptionModule = default(""); // module path where the visualizer subscribes for interface changed signals, root module by default
+        string nodeFilter = default(""); // which nodes are considered, matches no nodes by default
         @class(Ieee80211VisualizerBase);
 }

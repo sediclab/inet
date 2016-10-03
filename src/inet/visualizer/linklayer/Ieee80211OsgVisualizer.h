@@ -26,6 +26,8 @@ namespace visualizer {
 
 class INET_API Ieee80211OsgVisualizer : public Ieee80211VisualizerBase
 {
+  protected:
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) override;
 };
 
 } // namespace visualizer

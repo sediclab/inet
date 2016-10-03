@@ -18,14 +18,45 @@
 #ifndef __INET_IEEE80211VISUALIZERBASE_H
 #define __INET_IEEE80211VISUALIZERBASE_H
 
+#include "inet/common/PatternMatcher.h"
+#include "inet/networklayer/common/InterfaceEntry.h"
 #include "inet/visualizer/base/VisualizerBase.h"
 
 namespace inet {
 
 namespace visualizer {
 
-class INET_API Ieee80211VisualizerBase : public VisualizerBase
+class INET_API Ieee80211VisualizerBase : public VisualizerBase, public cListener
 {
+  protected:
+    class INET_API CacheEntry {
+      public:
+        int nodeId = -1;
+        int interfaceId = -1;
+
+      public:
+        CacheEntry(int nodeId, int interfaceId);
+    };
+
+  protected:
+    /** @name Parameters */
+    //@{
+    cModule *subscriptionModule = nullptr;
+    PatternMatcher nodeMatcher;
+    //@}
+
+    std::map<std::pair<int, int>, CacheEntry *> cacheEntries;
+
+  protected:
+    virtual void initialize(int stage) override;
+
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) = 0;
+    virtual CacheEntry *getCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry);
+    virtual void addCacheEntry(CacheEntry *cacheEntry);
+    virtual void removeCacheEntry(CacheEntry *cacheEntry);
+
+  public:
+    virtual void receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG) override;
 };
 
 } // namespace visualizer
