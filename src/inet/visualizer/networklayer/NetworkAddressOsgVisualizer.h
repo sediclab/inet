@@ -26,6 +26,9 @@ namespace visualizer {
 
 class INET_API NetworkAddressOsgVisualizer : public NetworkAddressVisualizerBase
 {
+  protected:
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) override;
+    virtual void updateNetworkAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry) override;
 };
 
 } // namespace visualizer

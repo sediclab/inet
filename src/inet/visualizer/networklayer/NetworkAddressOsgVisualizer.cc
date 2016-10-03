@@ -23,6 +23,15 @@ namespace visualizer {
 
 Define_Module(NetworkAddressOsgVisualizer);
 
+NetworkAddressVisualizerBase::CacheEntry *NetworkAddressOsgVisualizer::createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry)
+{
+    return nullptr;
+}
+
+void NetworkAddressOsgVisualizer::updateNetworkAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry)
+{
+}
+
 } // namespace visualizer
 
 } // namespace inet

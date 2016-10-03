@@ -23,6 +23,15 @@ namespace visualizer {
 
 Define_Module(MacAddressOsgVisualizer);
 
+MacAddressVisualizerBase::CacheEntry *MacAddressOsgVisualizer::createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry)
+{
+    return nullptr;
+}
+
+void MacAddressOsgVisualizer::updateMacAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry)
+{
+}
+
 } // namespace visualizer
 
 } // namespace inet

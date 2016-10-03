@@ -18,14 +18,48 @@
 #ifndef __INET_NETWORKADDRESSVISUALIZERBASE_H
 #define __INET_NETWORKADDRESSVISUALIZERBASE_H
 
+#include "inet/common/PatternMatcher.h"
+#include "inet/networklayer/common/InterfaceEntry.h"
+#include "inet/networklayer/common/L3Address.h"
 #include "inet/visualizer/base/VisualizerBase.h"
 
 namespace inet {
 
 namespace visualizer {
 
-class INET_API NetworkAddressVisualizerBase : public VisualizerBase
+class INET_API NetworkAddressVisualizerBase : public VisualizerBase, public cListener
 {
+  protected:
+    class INET_API CacheEntry {
+      protected:
+        int nodeId = -1;
+        int interfaceId = -1;
+
+      public:
+        CacheEntry(int nodeId, int interfaceId);
+    };
+
+  protected:
+    /** @name Parameters */
+    //@{
+    cModule *subscriptionModule = nullptr;
+    PatternMatcher nodeMatcher;
+    PatternMatcher interfaceMatcher;
+    cFigure::Color fontColor;
+    cFigure::Color backgroundColor;
+    //@}
+
+    std::map<std::pair<int, int>, CacheEntry *> cacheEntries;
+
+  protected:
+    virtual void initialize(int stage) override;
+
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) = 0;
+    virtual CacheEntry *ensureCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry);
+    virtual void updateNetworkAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry) = 0;
+
+  public:
+    virtual void receiveSignal(cComponent *source, simsignal_t signal, cObject *object DETAILS_ARG) override;
 };
 
 } // namespace visualizer

@@ -20,5 +20,11 @@ package inet.visualizer.base;
 simple MacAddressVisualizerBase extends VisualizerBase
 {
     parameters:
+        string networkNodeVisualizerModule = default("^.networkNodeVisualizer");
+        string subscriptionModule = default(""); // module path where the visualizer subscribes for interface changed signals, root module by default
+        string nodeFilter = default(""); // which nodes are considered, matches no nodes by default
+        string interfaceFilter = default("*"); // which interfaces are considered, matches all interfaces by default
+        string fontColor = default("black"); // mac address font color, black by default
+        string backgroundColor = default("cyan"); // mac address background color, white by default
         @class(MacAddressVisualizerBase);
 }

@@ -18,7 +18,9 @@
 #ifndef __INET_NETWORKADDRESSCANVASVISUALIZER_H
 #define __INET_NETWORKADDRESSCANVASVISUALIZER_H
 
+#include "inet/common/figures/BoxedLabelFigure.h"
 #include "inet/visualizer/base/NetworkAddressVisualizerBase.h"
+#include "inet/visualizer/networknode/NetworkNodeCanvasVisualizer.h"
 
 namespace inet {
 
@@ -26,6 +28,23 @@ namespace visualizer {
 
 class INET_API NetworkAddressCanvasVisualizer : public NetworkAddressVisualizerBase
 {
+  protected:
+    class INET_API CanvasCacheEntry : public CacheEntry {
+      public:
+        BoxedLabelFigure *figure = nullptr;
+
+      public:
+        CanvasCacheEntry(int nodeId, int interfaceId) : CacheEntry(nodeId, interfaceId) { }
+    };
+
+  protected:
+    double zIndex = NaN;
+    NetworkNodeCanvasVisualizer *networkNodeVisualizer = nullptr;
+
+  protected:
+    virtual void initialize(int stage) override;
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) override;
+    virtual void updateNetworkAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry) override;
 };
 
 } // namespace visualizer

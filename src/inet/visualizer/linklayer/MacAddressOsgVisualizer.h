@@ -26,6 +26,9 @@ namespace visualizer {
 
 class INET_API MacAddressOsgVisualizer : public MacAddressVisualizerBase
 {
+  protected:
+    virtual CacheEntry *createCacheEntry(cModule *networkNode, InterfaceEntry *interfaceEntry) override;
+    virtual void updateMacAddress(cModule *networkNode, InterfaceEntry *interfaceEntry, CacheEntry *cacheEntry) override;
 };
 
 } // namespace visualizer
