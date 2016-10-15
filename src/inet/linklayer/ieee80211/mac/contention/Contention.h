@@ -70,7 +70,7 @@ class INET_API Contention : public cSimpleModule, public IContention
         virtual void switchToEifs();
         virtual void computeRemainingBackoffSlots();
         virtual void revokeBackoffOptimization();
-        virtual void updateDisplayString();
+        virtual void updateDisplayString(simtime_t expectedChannelAccess);
         const char *getEventName(EventType event);
 
     public:
