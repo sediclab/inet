@@ -1,0 +1,7 @@
+Simple ToDo File (+ testing how to work with submodules)
+----------------
+
+1. add new project feature 'NewIEEE802154'
+2. add necessary folder and files (simple modules)
+3. adjust Makefiles
+4. test compiling with and without the new feature
